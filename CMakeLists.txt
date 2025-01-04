@@ -25,7 +25,7 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(pico2040 pico2040.c )
+add_executable(pico2040 main.c)
 
 pico_set_program_name(pico2040 "pico2040")
 pico_set_program_version(pico2040 "0.1")
