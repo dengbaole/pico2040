@@ -24,8 +24,11 @@ project(pico2040 C CXX ASM)
 pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
-
-add_executable(pico2040 main.c)
+# add_subdirectory(moudle)
+add_executable(pico2040 
+moudle/main.c
+moudle/ili9341_drv.c
+)
 
 pico_set_program_name(pico2040 "pico2040")
 pico_set_program_version(pico2040 "0.1")
@@ -35,12 +38,14 @@ pico_enable_stdio_usb(pico2040 0)
 
 # Add the standard library to the build
 target_link_libraries(pico2040
-        pico_stdlib)
+        pico_stdlib
+        )
 
 # Add the standard include files to the build
 target_include_directories(pico2040 PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}
   ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
+  ./moudle
 )
 
 # Add any user requested libraries
@@ -50,6 +55,8 @@ target_link_libraries(pico2040
         hardware_timer
         hardware_watchdog
         hardware_clocks
+        hardware_spi
+        hardware_pwm
         )
 
 pico_add_extra_outputs(pico2040)
