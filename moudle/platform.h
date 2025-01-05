@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 #include "pico/stdlib.h"
 #include "pico/binary_info.h"
@@ -22,7 +23,8 @@
 #include "hardware/spi.h"
 #include "hardware/pwm.h"
 
-
+#include "scheduler/uevent.h"
+#include "scheduler/scheduler.h"
 
 #include "ili9341_drv.h"
 #include "gpio_drv.h"
@@ -30,6 +32,32 @@
 #include "raspberry26x32.h"
 #include "ssd1306_font.h"
 
+
+
+void moudle_init(void);
+
+
+#define UEVT_APP_BASE (0xF500)
+#define UEVT_APP_NEWSTATE (UEVT_APP_BASE | 0x01)
+#define UEVT_APP_STATELEAVE (UEVT_APP_BASE | 0x02)
+
+#define UEVT_SYS_BASE (0xAE00)
+#define UEVT_SYS_POWERUP (UEVT_SYS_BASE | 0x01)
+#define UEVT_SYS_BOOT (UEVT_SYS_BASE | 0x0B)
+#define UEVT_SYS_SETUP (UEVT_SYS_BASE | 0x02)
+#define UEVT_SYS_START (UEVT_SYS_BASE | 0x03)
+#define UEVT_SYS_BEFORE_SLEEP (UEVT_SYS_BASE | 0x0E)
+#define UEVT_SYS_SLEEP (UEVT_SYS_BASE | 0x0C)
+#define UEVT_SYS_WAKE (UEVT_SYS_BASE | 0x0D)
+#define UEVT_SYS_RENDER (UEVT_SYS_BASE | 0xED)
+#define UEVT_SYS_PRINT_NEXT_FREQ (UEVT_SYS_BASE | 0xF1)
+
+#define UEVT_RTC_BASE (0x0000)
+#define UEVT_TIMER_4HZ (UEVT_RTC_BASE | 0x10)
+#define UEVT_TIMER_FPS (UEVT_RTC_BASE | 0x1F)
+
+#define UEVT_ADC_BASE (0x0200)
+#define UEVT_ADC_TEMPERATURE_RESULT (UEVT_ADC_BASE | 0x01)
 
 
 

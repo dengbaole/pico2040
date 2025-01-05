@@ -57,15 +57,20 @@ typedef struct render_area {
 	uint8_t start_page;
 	uint8_t end_page;
 	int buflen;
-}render_area;
+} render_area;
+
+
+extern render_area frame_area;
+extern uint8_t ssd1306_buff[SSD1306_BUF_LEN];
 
 void calc_render_area_buflen(render_area* area);
 void SSD1306_send_cmd(uint8_t cmd);
 void SSD1306_send_cmd_list(uint8_t* buf, int num);
 void SSD1306_send_buf(uint8_t buf[], int buflen);
-void SSD1306_init();
+void SSD1306_init(void);
+void frame_area_init(void);
 void SSD1306_scroll(bool on);
-void render(uint8_t* buf,render_area* area);
+void render(uint8_t* buf, render_area* area);
 void SetPixel(uint8_t* buf, int x, int y, bool on);
 // Basic Bresenhams.
 void DrawLine(uint8_t* buf, int x0, int y0, int x1, int y1, bool on);

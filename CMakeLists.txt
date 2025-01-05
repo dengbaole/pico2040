@@ -29,7 +29,7 @@ pico_sdk_init()
 # moudle/main.c
 # moudle/ili9341_drv.c
 # )
-
+add_subdirectory(./moudle/scheduler)
 # 获取 moudle 目录下的所有源文件
 file(GLOB MODULE_SOURCES "moudle/*.c")
 
@@ -55,6 +55,7 @@ target_include_directories(pico2040 PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}
   ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
   ./moudle
+  ./moudle/scheduler
 )
 
 # Add any user requested libraries
@@ -66,6 +67,7 @@ target_link_libraries(pico2040
         hardware_clocks
         hardware_spi
         hardware_pwm
+        scheduler
         )
 
 pico_add_extra_outputs(pico2040)

@@ -7,12 +7,17 @@
 
 #include "ssd1306_i2c.h"
 
+render_area frame_area;
+uint8_t ssd1306_buff[SSD1306_BUF_LEN];
+
+
 void calc_render_area_buflen(render_area* area) {
 	// calculate how long the flattened buffer will be for a render area
 	area->buflen = (area->end_col - area->start_col + 1) * (area->end_page - area->start_page + 1);
 }
 
-
+/// @brief 发送命令 0x80 + cmd
+/// @param cmd
 void SSD1306_send_cmd(uint8_t cmd) {
 	// I2C write process expects a control byte followed by data
 	// this "data" can be a command or data to follow up a command
@@ -44,7 +49,7 @@ void SSD1306_send_buf(uint8_t buf[], int buflen) {
 	free(temp_buf);
 }
 
-void SSD1306_init() {
+void SSD1306_init(void) {
 	// Some of these commands are not strictly necessary as the reset
 	// process defaults to some of these but they are shown here
 	// to demonstrate what the initialization sequence looks like
@@ -94,6 +99,14 @@ void SSD1306_init() {
 	cmds[7] = SSD1306_SET_COM_OUT_DIR; // 反转 COM 输出方向
 
 	SSD1306_send_cmd_list(cmds, count_of(cmds));
+}
+
+
+void frame_area_init(void) {
+    frame_area.start_col = 0;
+    frame_area.end_col = SSD1306_WIDTH - 1;
+    frame_area.start_page = 0;
+    frame_area.end_page = SSD1306_NUM_PAGES - 1;
 }
 
 void SSD1306_scroll(bool on) {
