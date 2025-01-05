@@ -61,7 +61,8 @@ typedef struct render_area {
 
 
 extern render_area frame_area;
-extern uint8_t ssd1306_buff[SSD1306_BUF_LEN];
+extern uint8_t oled_displaybuff[SSD1306_NUM_PAGES * SSD1306_WIDTH];
+extern uint8_t oled_displaybuff2[SSD1306_NUM_PAGES][SSD1306_WIDTH];
 
 void calc_render_area_buflen(render_area* area);
 void SSD1306_send_cmd(uint8_t cmd);
@@ -78,5 +79,8 @@ uint8_t reverse(uint8_t b);
 void FillReversedCache();
 void WriteChar(uint8_t* buf, int16_t x, int16_t y, uint8_t ch) ;
 void WriteString(uint8_t* buf, int16_t x, int16_t y, char* str);
-
+void display_buffer_set_xywh(uint8_t x, uint8_t y, uint8_t w, uint8_t h);
+void oled_draw(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t* p);
+void update_display(void);
+void oled_Buffer_clear(void);
 #endif // !1

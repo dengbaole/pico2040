@@ -8,8 +8,8 @@
 #include "ssd1306_i2c.h"
 
 render_area frame_area;
-uint8_t ssd1306_buff[SSD1306_BUF_LEN];
-
+uint8_t oled_displaybuff[SSD1306_NUM_PAGES * SSD1306_WIDTH];
+uint8_t oled_displaybuff2[SSD1306_NUM_PAGES][SSD1306_WIDTH];
 
 void calc_render_area_buflen(render_area* area) {
 	// calculate how long the flattened buffer will be for a render area
@@ -47,6 +47,30 @@ void SSD1306_send_buf(uint8_t buf[], int buflen) {
 	i2c_write_blocking(i2c_default, SSD1306_I2C_ADDR, temp_buf, buflen + 1, false);
 
 	free(temp_buf);
+}
+
+
+void SSD1306_send_buf2(uint8_t arr[][SSD1306_WIDTH]) {
+	// in horizontal addressing mode, the column address pointer auto-increments
+	// and then wraps around to the next page, so we can send the entire frame
+	// buffer in one gooooooo!
+
+	// copy our frame buffer into a new buffer because we need to add the control byte
+	// to the beginning
+
+
+	uint8_t temp_buf[SSD1306_NUM_PAGES * SSD1306_WIDTH + 1];
+	temp_buf[0] = 0x40;
+	for (int j = 1; j < SSD1306_NUM_PAGES; j++) {
+		for(uint16_t i = 0; i < SSD1306_WIDTH; i++) {
+			temp_buf[i + j + 1] = arr[j][i];
+		}
+	}
+
+
+
+	i2c_write_blocking(i2c_default, SSD1306_I2C_ADDR, temp_buf, SSD1306_NUM_PAGES * SSD1306_WIDTH + 1, false);
+
 }
 
 void SSD1306_init(void) {
@@ -103,10 +127,10 @@ void SSD1306_init(void) {
 
 
 void frame_area_init(void) {
-    frame_area.start_col = 0;
-    frame_area.end_col = SSD1306_WIDTH - 1;
-    frame_area.start_page = 0;
-    frame_area.end_page = SSD1306_NUM_PAGES - 1;
+	frame_area.start_col = 0;
+	frame_area.end_col = SSD1306_WIDTH - 1;
+	frame_area.start_page = 0;
+	frame_area.end_page = SSD1306_NUM_PAGES - 1;
 }
 
 void SSD1306_scroll(bool on) {
@@ -246,3 +270,55 @@ void WriteString(uint8_t* buf, int16_t x, int16_t y, char* str) {
 
 
 
+void display_buffer_set_xywh(uint8_t x, uint8_t y, uint8_t w, uint8_t h) {
+	uint8_t cmds[] = {
+		SSD1306_SET_COL_ADDR,
+		x,
+		x + w - 1,
+		SSD1306_SET_PAGE_ADDR,
+		(y) / 8, //todo 应该是page，而不是y 可能要/8
+		(y + h - 1) / 8
+	};
+
+	SSD1306_send_cmd_list(cmds, count_of(cmds));
+}
+
+//更新整个buffer
+void update_display(void) {
+	// oled_Buffer_clear();
+	display_buffer_set_xywh(0, 0, SSD1306_WIDTH, SSD1306_HEIGHT);
+	// SSD1306_send_buf2(oled_displaybuff2);
+    for (int j = 1; j < SSD1306_NUM_PAGES; j++) {
+		for(uint16_t i = 0; i < SSD1306_WIDTH; i++) {
+			// oled_displaybuff[i + j + 1] = oled_displaybuff2[j][i];
+            oled_displaybuff[i + j + 1] = 0x55;
+		}
+	}
+    SSD1306_send_buf(oled_displaybuff,count_of(oled_displaybuff));
+}
+
+
+void oled_draw(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t* p) {
+	// for (uint8_t j = 0; j < (h - 1) / 8 + 1; j++) {
+	// 	for (uint8_t i = 0; i < w; i++) {
+	// 		oled_displaybuff2[(y / 8 + j) ][ (x + i)] |= p[j * w + i] << (y % 8);
+	// 		oled_displaybuff2[(y / 8 + j + 1)][(x + i)] |= p[j * w + i] >> (8 - y % 8);
+	// 	}
+	// }
+    oled_displaybuff2[0][0] = 0x55;
+    oled_displaybuff2[0][1] = 0x55;
+    oled_displaybuff2[0][2] = 0x55;
+    oled_displaybuff2[0][3] = 0x55;
+    oled_displaybuff2[0][4] = 0x55;
+    oled_displaybuff2[0][5] = 0x55;
+    
+}
+
+void oled_Buffer_clear(void) {
+	uint16_t x, y;
+	for(y = 0; y < SSD1306_NUM_PAGES; y++) {
+		for(x = 0; x < SSD1306_WIDTH; x++) {
+			oled_displaybuff2[y][x] = 0;
+		}
+	}
+}
