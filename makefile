@@ -11,12 +11,17 @@ assets:
 	@echo Create Assets
 	./utils_bin/p2a-win-amd64.exe -q 0 -c rgb565 -in ./assets/UI -out $(PICO_DIR)/assets
 
-pico:
+pico:clean
 	cmake . -G Ninja -B$(BUILD_DIR) -S.
 	ninja -C $(BUILD_DIR)
 
 clean:
-	@if [ -d "./$(BUILD_DIR)" ]; then rm ./$(BUILD_DIR) -r; fi
+		@echo "Cleaning up build directory..."
+	@if exist $(BUILD_DIR) ( \
+		rmdir /s /q $(BUILD_DIR) \
+	) else ( \
+		echo Build directory does not exist: $(BUILD_DIR) \
+	)
 
 rebuild: clean pico
 

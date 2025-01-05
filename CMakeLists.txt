@@ -25,10 +25,19 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 # add_subdirectory(moudle)
+# add_executable(pico2040 
+# moudle/main.c
+# moudle/ili9341_drv.c
+# )
+
+# 获取 moudle 目录下的所有源文件
+file(GLOB MODULE_SOURCES "moudle/*.c")
+
+# 添加可执行文件，使用获取的源文件
 add_executable(pico2040 
-moudle/main.c
-moudle/ili9341_drv.c
+    ${MODULE_SOURCES}
 )
+
 
 pico_set_program_name(pico2040 "pico2040")
 pico_set_program_version(pico2040 "0.1")
