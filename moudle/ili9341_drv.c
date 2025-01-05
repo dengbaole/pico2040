@@ -1,9 +1,5 @@
 #include "ili9341_drv.h"
-#include "pico/stdlib.h"
-#include "hardware/spi.h"
-#include "hardware/gpio.h"
-#include "hardware/pwm.h"
-#include <stdio.h>
+
 
 
 stftdevice tftdevice = {
@@ -13,7 +9,7 @@ stftdevice tftdevice = {
 
 
 void tft_init(void) {
-    spi_init(SPI_PORT, SPI_BAUDRATE);
+	spi_init(SPI_PORT, SPI_BAUDRATE);
 }
 
 void tft_set_window(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) {
