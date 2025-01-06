@@ -78,5 +78,8 @@ uint8_t reverse(uint8_t b);
 void FillReversedCache();
 void WriteChar(uint8_t* buf, int16_t x, int16_t y, uint8_t ch) ;
 void WriteString(uint8_t* buf, int16_t x, int16_t y, char* str);
+void oled_clean_buff(void);
+void oled_draw(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t* p);
+void oled_update(void);
 
 #endif // !1

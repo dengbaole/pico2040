@@ -18,6 +18,14 @@ void oled_handle(uevt_t* evt) {
 			gpio_set_dir(SSD1306_VCC_PIN, GPIO_OUT);
 			gpio_put(SSD1306_VCC_PIN, 1);
 			SSD1306_init();
+
+			oled_clean_buff();
+			oled_draw(50, 0, IMG_WIDTH,IMG_WIDTH, raspberry26x32);
+			oled_update();
+			while (1){
+				/* code */
+			}
+			
 			uevt_bc_e(UEVT_APP_NEWSTATE);
 			break;
 		case UEVT_APP_NEWSTATE:
