@@ -9,7 +9,7 @@
 
 render_area frame_area;
 uint8_t ssd1306_buff[SSD1306_BUF_LEN];
-
+uint8_t oled_display_buff[SSD1306_NUM_PAGES][SSD1306_WIDTH];
 
 void calc_render_area_buflen(render_area* area) {
 	// calculate how long the flattened buffer will be for a render area
@@ -245,4 +245,23 @@ void WriteString(uint8_t* buf, int16_t x, int16_t y, char* str) {
 }
 
 
+void oled_clean_buff(void) {
+	memset(oled_display_buff, 0, sizeof(oled_display_buff));
+}
 
+/**
+ * @brief 将当前显存显示到屏幕上
+ * @note 此函数是移植本驱动时的重要函数 将本驱动库移植到其他驱动芯片时应根据实际情况修改此函数
+ */
+void OLED_ShowFrame(void) {
+	static uint8_t sendBuffer[SSD1306_WIDTH + 1];
+	uint8_t i;
+	sendBuffer[0] = 0x40;
+	for (i = 0; i < SSD1306_NUM_PAGES; i++) {
+		SSD1306_send_cmd(0xB0 + i); // 设置页地址
+		SSD1306_send_cmd(0x00);     // 设置列地址低4位
+		SSD1306_send_cmd(0x10);     // 设置列地址高4位
+		memcpy(sendBuffer + 1, oled_display_buff[i], SSD1306_WIDTH);
+		SSD1306_send_buf(sendBuffer, SSD1306_WIDTH + 1);
+	}
+}
