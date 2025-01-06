@@ -22,7 +22,7 @@ void SSD1306_send_cmd(uint8_t cmd) {
 	// I2C write process expects a control byte followed by data
 	// this "data" can be a command or data to follow up a command
 	// Co = 1, D/C = 0 => the driver expects a command
-	uint8_t buf[2] = {0x80, cmd};
+	uint8_t buf[2] = {0x00, cmd};
 	i2c_write_blocking(i2c0, SSD1306_I2C_ADDR, buf, 2, false);
 }
 
