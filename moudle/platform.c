@@ -6,24 +6,30 @@ void oled_handle(uevt_t* evt) {
 	// 是否在刷新屏幕
 	switch(evt->evt_id) {
 		case UEVT_SYS_BOOT:
-            i2c_init(i2c0, SSD1306_I2C_CLK * 1000);
-			gpio_set_function(PICO_DEFAULT_I2C_SDA_PIN, GPIO_FUNC_I2C);
-			gpio_set_function(PICO_DEFAULT_I2C_SCL_PIN, GPIO_FUNC_I2C);
-			gpio_pull_up(PICO_DEFAULT_I2C_SDA_PIN);
-			gpio_pull_up(PICO_DEFAULT_I2C_SCL_PIN);
-            SSD1306_init();
-            uevt_bc_e(UEVT_APP_NEWSTATE);
+			i2c_init(i2c0, SSD1306_I2C_CLK * 1000);
+			gpio_set_function(SSD1306_SDA_PIN, GPIO_FUNC_I2C);
+			gpio_set_function(SSD1306_SCL_PIN, GPIO_FUNC_I2C);
+			gpio_pull_up(SSD1306_SDA_PIN);
+			gpio_pull_up(SSD1306_SCL_PIN);
+			gpio_init(SSD1306_GED_PIN);
+			gpio_set_dir(SSD1306_GED_PIN, GPIO_OUT);
+			gpio_put(SSD1306_GED_PIN, 0);
+			gpio_init(SSD1306_VCC_PIN);
+			gpio_set_dir(SSD1306_VCC_PIN, GPIO_OUT);
+			gpio_put(SSD1306_VCC_PIN, 1);
+			SSD1306_init();
+			uevt_bc_e(UEVT_APP_NEWSTATE);
 			break;
 		case UEVT_APP_NEWSTATE:
-		
+
 			// run through the complete initialization process
-			
+
 
 			// Initialize render area for entire frame (SSD1306_WIDTH pixels by SSD1306_NUM_PAGES pages)
 			frame_area_init();
 			calc_render_area_buflen(&frame_area);
 			// zero the entire display
-			
+
 			memset(ssd1306_buff, 0, SSD1306_BUF_LEN);
 			render(ssd1306_buff, &frame_area);
 
@@ -89,8 +95,8 @@ void oled_handle(uevt_t* evt) {
 				}
 				pix = false;
 			}
-            
-            uevt_bc_e(UEVT_APP_NEWSTATE);
+
+			uevt_bc_e(UEVT_APP_NEWSTATE);
 			break;
 	}
 }

@@ -103,10 +103,10 @@ void SSD1306_init(void) {
 
 
 void frame_area_init(void) {
-    frame_area.start_col = 0;
-    frame_area.end_col = SSD1306_WIDTH - 1;
-    frame_area.start_page = 0;
-    frame_area.end_page = SSD1306_NUM_PAGES - 1;
+	frame_area.start_col = 0;
+	frame_area.end_col = SSD1306_WIDTH - 1;
+	frame_area.start_page = 0;
+	frame_area.end_page = SSD1306_NUM_PAGES - 1;
 }
 
 void SSD1306_scroll(bool on) {
