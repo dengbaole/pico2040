@@ -8,9 +8,9 @@
 typedef struct {
 	uint16_t width;
 	uint16_t height;
-} stftdevice;
+} sTftDevice;
 
-extern stftdevice tftdevice;
+extern sTftDevice tftDevice;
 
 //屏幕方向
 typedef enum {
@@ -20,11 +20,13 @@ typedef enum {
 	ILI9341_DIRECTION_270
 } etftdirection;
 
-void tft_init(void);
-void tft_set_window(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
-void tft_set_direction(etftdirection direction);
-void tft_clear(uint16_t color);
-void tft_draw_point(uint16_t x, uint16_t y, uint16_t color);
-void tft_draw_array(uint16_t* src, size_t len);
+void tftInit(void);
+void tftSetWindows(uint16_t x, uint16_t y, uint16_t width, uint16_t height);
+void tftSetDirection(etftdirection dir);
+void tftClear(uint16_t color);
 
+void tftPlot(uint16_t x, uint16_t y, uint16_t color);
+void tftDrawArray(uint16_t* src, size_t len);
+
+void tftSetBLBrightness(uint16_t brightness);
 #endif // !1

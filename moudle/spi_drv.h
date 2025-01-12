@@ -3,7 +3,7 @@
 
 #include "platform.h"
 
-
+void user_spi_init(void);
 
 
 

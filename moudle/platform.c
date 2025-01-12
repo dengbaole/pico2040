@@ -20,12 +20,12 @@ void oled_handle(uevt_t* evt) {
 			SSD1306_init();
 
 			oled_clean_buff();
-			oled_draw(50, 0, IMG_WIDTH,IMG_WIDTH, raspberry26x32);
+			oled_draw(50, 0, IMG_WIDTH, IMG_WIDTH, raspberry26x32);
 			oled_update();
 			// while (1){
 			// 	/* code */
 			// }
-			
+
 			uevt_bc_e(UEVT_APP_NEWSTATE);
 			break;
 		case UEVT_APP_NEWSTATE:
@@ -114,12 +114,11 @@ void lcd_handle(uevt_t* evt) {
 	// 是否在刷新屏幕
 	switch(evt->evt_id) {
 		case UEVT_SYS_BOOT:
-
-			uevt_bc_e(UEVT_APP_NEWSTATE);
+			tftInit();
 			break;
 		case UEVT_APP_NEWSTATE:
 
-			uevt_bc_e(UEVT_APP_NEWSTATE);
+			// uevt_bc_e(UEVT_APP_NEWSTATE);
 			break;
 	}
 }
@@ -129,7 +128,7 @@ void lcd_handle(uevt_t* evt) {
 
 
 void moudle_init(void) {
-	user_event_handler_regist(oled_handle);
+	// user_event_handler_regist(oled_handle);
 	user_event_handler_regist(lcd_handle);
 }
 

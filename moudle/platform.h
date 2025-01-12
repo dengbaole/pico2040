@@ -32,6 +32,7 @@
 #include "raspberry26x32.h"
 #include "iic_drv.h"
 #include "ssd1306_font.h"
+#include "spi_drv.h"
 
 
 

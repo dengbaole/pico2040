@@ -256,7 +256,7 @@ void oled_draw(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t* p) {
 			oled_display_buff[(y / 8 + j) ][ (x + i)] |= p[j * w + i] << (y % 8);
 			oled_display_buff[(y / 8 + j + 1)][(x + i)] |= p[j * w + i] >> (8 - y % 8);
 		}
-	}    
+	}
 }
 /**
  * @brief 将当前显存显示到屏幕上

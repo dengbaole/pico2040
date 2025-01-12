@@ -8,20 +8,20 @@
 
 
 //SPI
-#define SPI_PORT  spi1
-#define SPI_BAUDRATE 24000000
-#define TFT_PIN_MISO 12
-#define TFT_PIN_CS 13
-#define TFT_PIN_RESET 11
-#define TFT_PIN_DC 14
-#define TFT_PIN_MOSI 15
-#define TFT_PIN_SCK 10
-#define TFT_PIN_BL 9
+#define SPI_PORT     spi1
+#define SPI_BAUDRATE 64*1000*1000
+#define PIN_MISO     12
+#define PIN_CS       13
+#define PIN_SCK      10
+#define PIN_MOSI     15
+#define PIN_BK       9
+#define PIN_DC       14
+#define PIN_RST      11
 
 //屏幕尺寸
-#define ILI9341_TFTWIDTH  240
-#define ILI9341_TFTHEIGHT 320
-#define ILI9341_SIZE  (ILI9341_TFTWIDTH*ILI9341_TFTHEIGHT)
+#define ILI9341_WIDTH 240
+#define ILI9341_HEIGHT 320
+#define ILI9341_SIZE (ILI9341_WIDTH* ILI9341_HEIGHT)
 
 //颜色
 #define RGB565(r,g,b)  (((r&0xF8)<<8)|((g&0xFC)<<3)|((b&0xF8)>>3))
