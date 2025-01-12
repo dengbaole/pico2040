@@ -33,6 +33,7 @@
 #include "iic_drv.h"
 #include "ssd1306_font.h"
 #include "spi_drv.h"
+#include "timer_drv.h"
 
 
 
@@ -57,6 +58,8 @@ void moudle_init(void);
 #define UEVT_RTC_BASE (0x0000)
 #define UEVT_TIMER_4HZ (UEVT_RTC_BASE | 0x10)
 #define UEVT_TIMER_FPS (UEVT_RTC_BASE | 0x1F)
+#define UEVT_TIMER_10MS (UEVT_RTC_BASE | 0x20)
+#define UEVT_TIMER_100MS (UEVT_RTC_BASE | 0x2F)
 
 #define UEVT_ADC_BASE (0x0200)
 #define UEVT_ADC_TEMPERATURE_RESULT (UEVT_ADC_BASE | 0x01)

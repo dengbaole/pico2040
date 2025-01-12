@@ -115,35 +115,7 @@ static inline void tft_write_data(const uint16_t data) {
 
 void tftInit(void) {
 	// 初始化SPI
-	uint baudrate = spi_init(SPI_PORT, SPI_BAUDRATE);
-	printf("SPI baudrate: %d\n", baudrate);
-
-	// 初始化GPIO
-	gpio_init(PIN_CS  );
-	gpio_init(PIN_BK  );
-	gpio_init(PIN_DC  );
-	gpio_init(PIN_RST );
-
-	/*gpio_init_mask(
-	    (1 << PIN_CS  ) |
-	    (1 << PIN_BK  ) |
-	    (1 << PIN_DC  ) |
-	    (1 << PIN_RST )
-	);*/
-
-	// 设置GPIO方向，默认IN
-	gpio_set_dir(PIN_CS, true);
-	gpio_set_dir(PIN_BK, true);
-	gpio_set_dir(PIN_DC, true);
-	gpio_set_dir(PIN_RST, true);
-
-	// CS拉高
-	gpio_put(PIN_CS, true);
-
-	// 设置SPi的功能管脚
-	gpio_set_function(PIN_MISO, GPIO_FUNC_SPI);
-	gpio_set_function(PIN_SCK, GPIO_FUNC_SPI);
-	gpio_set_function(PIN_MOSI, GPIO_FUNC_SPI);
+	user_spi_init();
 
 	// 复位屏幕
 	gpio_put(PIN_RST, false);
@@ -198,6 +170,8 @@ void tftInit(void) {
 			sleep_ms(150);
 		}
 	}
+
+
 
 	// 设置屏幕方向
 	tftSetDirection(ILI9341_DIRECTION_0);

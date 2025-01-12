@@ -1,4 +1,4 @@
-#include "iic_drv.h"
+#include "spi_drv.h"
 
 void user_spi_init(void) {
 	spi_init(SPI_PORT, SPI_BAUDRATE);
