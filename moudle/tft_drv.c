@@ -177,7 +177,7 @@ void tftInit(void) {
 	tftSetDirection(ILI9341_DIRECTION_0);
 
 	// 清除屏幕
-	tftClear(COLOR_YELLOW);
+	tftClear(COLOR_BLUE);
 
 
 	// 打开背光
