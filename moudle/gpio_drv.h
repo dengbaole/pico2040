@@ -10,12 +10,13 @@
 //SPI
 #define SPI_PORT  spi1
 #define SPI_BAUDRATE 24000000
-#define TFT_PIN_CS 9
-#define TFT_PIN_RESET 8
-#define TFT_PIN_DC 7
-#define TFT_PIN_MOSI 6
-#define TFT_PIN_SCK 5
-#define TFT_PIN_BL 4
+#define TFT_PIN_MISO 12
+#define TFT_PIN_CS 13
+#define TFT_PIN_RESET 11
+#define TFT_PIN_DC 14
+#define TFT_PIN_MOSI 15
+#define TFT_PIN_SCK 10
+#define TFT_PIN_BL 9
 
 //屏幕尺寸
 #define ILI9341_TFTWIDTH  240

@@ -110,11 +110,26 @@ void oled_handle(uevt_t* evt) {
 }
 
 
+void lcd_handle(uevt_t* evt) {
+	// 是否在刷新屏幕
+	switch(evt->evt_id) {
+		case UEVT_SYS_BOOT:
+
+			uevt_bc_e(UEVT_APP_NEWSTATE);
+			break;
+		case UEVT_APP_NEWSTATE:
+
+			uevt_bc_e(UEVT_APP_NEWSTATE);
+			break;
+	}
+}
+
+
 
 
 
 void moudle_init(void) {
 	user_event_handler_regist(oled_handle);
-
+	user_event_handler_regist(lcd_handle);
 }
 

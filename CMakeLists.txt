@@ -27,7 +27,7 @@ pico_sdk_init()
 # add_subdirectory(moudle)
 # add_executable(pico2040 
 # moudle/main.c
-# moudle/ili9341_drv.c
+# moudle/tft_drv.c
 # )
 add_subdirectory(./moudle/scheduler)
 # 获取 moudle 目录下的所有源文件

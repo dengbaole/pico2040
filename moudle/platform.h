@@ -26,7 +26,7 @@
 #include "scheduler/uevent.h"
 #include "scheduler/scheduler.h"
 
-#include "ili9341_drv.h"
+#include "tft_drv.h"
 #include "gpio_drv.h"
 #include "ssd1306_i2c.h"
 #include "raspberry26x32.h"
