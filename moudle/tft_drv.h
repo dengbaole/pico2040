@@ -25,8 +25,8 @@ void tftSetWindows(uint16_t x, uint16_t y, uint16_t width, uint16_t height);
 void tftSetDirection(etftdirection dir);
 void tftClear(uint16_t color);
 
-void tftPlot(uint16_t x, uint16_t y, uint16_t color);
-void tftDrawArray(uint16_t* src, size_t len);
+void tftplot(uint16_t x, uint16_t y, uint16_t color);
+void tftdrawarray(uint16_t* src, size_t len);
 
-void tftSetBLBrightness(uint16_t brightness);
+void tft_set_bl_brightness(uint16_t brightness);
 #endif // !1

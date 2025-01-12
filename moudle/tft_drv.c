@@ -81,28 +81,28 @@ sTftDevice tftDevice = {
 
 static uint blPwmSlice;
 
-static inline void tftSetDcAndCs(bool dc, bool cs) {
+static inline void tftsetdcandcs(bool dc, bool cs) {
 	// gpio_put_masked((1u << PIN_DC) | (1u << PIN_CS), (dc << PIN_DC) | (cs << PIN_CS));
 	gpio_put(PIN_DC, dc);
 	gpio_put(PIN_CS, cs);
 }
 
-static inline void tftWriteCmd(const uint8_t* cmd, size_t len) {
+static inline void tft_write_cmd(const uint8_t* cmd, size_t len) {
 	// 拉低CS、DC
-	tftSetDcAndCs(0, 0);
+	tftsetdcandcs(0, 0);
 	spi_write_blocking(SPI_PORT, cmd, 1);
-	tftSetDcAndCs(0, 1);
+	tftsetdcandcs(0, 1);
 
 	// 如果带参数
 	if (len > 1) {
-		tftSetDcAndCs(1, 0);
+		tftsetdcandcs(1, 0);
 		spi_write_blocking(SPI_PORT, &cmd[1], len - 1);
-		tftSetDcAndCs(1, 1);
+		tftsetdcandcs(1, 1);
 	}
 }
 
-static inline void tftWriteData(const uint16_t data) {
-	tftSetDcAndCs(1, 0);
+static inline void tft_write_data(const uint16_t data) {
+	tftsetdcandcs(1, 0);
 
 	uint8_t dt[2];
 	dt[0] = (data >> 8) & 0xff;
@@ -110,7 +110,7 @@ static inline void tftWriteData(const uint16_t data) {
 
 	spi_write_blocking(SPI_PORT, dt, 2);
 
-	tftSetDcAndCs(1, 1);
+	tftsetdcandcs(1, 1);
 }
 
 void tftInit(void) {
@@ -153,7 +153,7 @@ void tftInit(void) {
 
 	// 发送初始化命令
 	// uint8_t cmd[] = {0x36, 0x48};
-	// tftWriteCmd(cmd, 2);
+	// tft_write_cmd(cmd, 2);
 
 	// 数量， 命令， 参数...
 	// 如果数量为0x81，则延时150ms
@@ -191,7 +191,7 @@ void tftInit(void) {
 		temp = *cmdIndex++;
 		count = temp & 0x7F;
 
-		tftWriteCmd(cmdIndex, count);
+		tft_write_cmd(cmdIndex, count);
 		cmdIndex += count;
 
 		if (0x81 == temp) {
@@ -199,6 +199,17 @@ void tftInit(void) {
 		}
 	}
 
+	// 设置屏幕方向
+	tftSetDirection(ILI9341_DIRECTION_0);
+
+	// 清除屏幕
+	tftClear(COLOR_YELLOW);
+	for(int i = 0; i < 100; i++) {
+		for(int j = 0; j < 100; j++) {
+			tftplot(i, j, COLOR_RED);
+		}
+	}
+	
 	// 打开背光
 	// gpio_put(PIN_BK, true);
 	// 初始化背光
@@ -214,12 +225,6 @@ void tftInit(void) {
 	pwm_set_wrap(blPwmSlice, 99);
 	pwm_set_chan_level(blPwmSlice, PWM_CHAN_B, 100);
 	pwm_set_enabled(blPwmSlice, true);
-
-	// 设置屏幕方向
-	tftSetDirection(ILI9341_DIRECTION_0);
-
-	// 清除屏幕
-	tftClear(COLOR_RED);
 }
 
 void tftSetWindows(uint16_t x, uint16_t y, uint16_t width, uint16_t height) {
@@ -233,9 +238,9 @@ void tftSetWindows(uint16_t x, uint16_t y, uint16_t width, uint16_t height) {
 	--temp;
 
 	uint8_t cmd = 0x2a;
-	tftWriteCmd(&cmd, 1);
-	tftWriteData(x);
-	tftWriteData(temp);
+	tft_write_cmd(&cmd, 1);
+	tft_write_data(x);
+	tft_write_data(temp);
 
 	// 纵向
 	temp = y + height;
@@ -243,15 +248,15 @@ void tftSetWindows(uint16_t x, uint16_t y, uint16_t width, uint16_t height) {
 		temp = tftDevice.height;
 	}
 	--temp;
-
+	
 	cmd = 0x2b;
-	tftWriteCmd(&cmd, 1);
-	tftWriteData(y);
-	tftWriteData(temp);
+	tft_write_cmd(&cmd, 1);
+	tft_write_data(y);
+	tft_write_data(temp);
 
 	// 开始写入屏幕
 	cmd = 0x2c;
-	tftWriteCmd(&cmd, 1);
+	tft_write_cmd(&cmd, 1);
 }
 
 void tftSetDirection(etftdirection dir) {
@@ -289,7 +294,7 @@ void tftSetDirection(etftdirection dir) {
 	temp |= MADCTL_BGR;
 
 	uint8_t cmd[2] = { 0x36, temp };
-	tftWriteCmd(cmd, 2);
+	tft_write_cmd(cmd, 2);
 
 	tftSetWindows(0, 0, tftDevice.width, tftDevice.height);
 }
@@ -298,21 +303,21 @@ void tftClear(uint16_t color) {
 	size_t fillSize = ILI9341_SIZE;
 
 	for (size_t index = 0; index < fillSize; ++index) {
-		tftWriteData(color);
+		tft_write_data(color);
 	}
 }
 
-void tftPlot(uint16_t x, uint16_t y, uint16_t color) {
+void tftplot(uint16_t x, uint16_t y, uint16_t color) {
 	tftSetWindows(x, y, 1, 1);
-	tftWriteData(color);
+	tft_write_data(color);
 }
 
-void tftDrawArray(uint16_t* src, size_t len) {
+void tftdrawarray(uint16_t* src, size_t len) {
 	for (size_t index = 0; index < len; ++index) {
-		tftWriteData(src[index]);
+		tft_write_data(src[index]);
 	}
 }
 
-void tftSetBLBrightness(uint16_t brightness) {
+void tft_set_bl_brightness(uint16_t brightness) {
 	pwm_set_chan_level(blPwmSlice, PWM_CHAN_B, brightness);
 }
