@@ -22,9 +22,9 @@ void oled_handle(uevt_t* evt) {
 			oled_clean_buff();
 			oled_draw(50, 0, IMG_WIDTH,IMG_WIDTH, raspberry26x32);
 			oled_update();
-			while (1){
-				/* code */
-			}
+			// while (1){
+			// 	/* code */
+			// }
 			
 			uevt_bc_e(UEVT_APP_NEWSTATE);
 			break;
