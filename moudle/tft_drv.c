@@ -178,12 +178,8 @@ void tftInit(void) {
 
 	// 清除屏幕
 	tftClear(COLOR_YELLOW);
-	for(int i = 0; i < 100; i++) {
-		for(int j = 0; j < 100; j++) {
-			tftplot(i, j, COLOR_RED);
-		}
-	}
-	
+
+
 	// 打开背光
 	// gpio_put(PIN_BK, true);
 	// 初始化背光
@@ -222,7 +218,7 @@ void tftSetWindows(uint16_t x, uint16_t y, uint16_t width, uint16_t height) {
 		temp = tftDevice.height;
 	}
 	--temp;
-	
+
 	cmd = 0x2b;
 	tft_write_cmd(&cmd, 1);
 	tft_write_data(y);

@@ -1,4 +1,4 @@
-#include "iic_drv.h"
+#include "timer_drv.h"
 
 bool timer_10ms_callback(struct repeating_timer* t) {
 	uevt_bc_e(UEVT_TIMER_10MS);

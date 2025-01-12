@@ -111,17 +111,31 @@ void oled_handle(uevt_t* evt) {
 
 
 void lcd_handle(uevt_t* evt) {
-	uint16_t t_10ms = 0;
+	static uint16_t t_10ms = 0;
 	// 是否在刷新屏幕
 	switch(evt->evt_id) {
 		case UEVT_SYS_BOOT:
 			tftInit();
 			break;
 		case UEVT_TIMER_10MS:
-			t_10ms++;
-
+			// t_10ms++;
+			// if(t_10ms % 100 == 0) {
+			// 	for(int i = 0; i < 100; i++) {
+			// 		for(int j = 0; j < 100; j++) {
+			// 			tftplot(i, j, COLOR_RED);
+			// 		}
+			// 	}
+			// }
 			break;
 		case UEVT_TIMER_100MS:
+			t_10ms++;
+			if(t_10ms % 100 == 0) {
+				for(int i = 0; i < 100; i++) {
+					for(int j = 0; j < 100; j++) {
+						tftplot(i, j, COLOR_RED);
+					}
+				}
+			}
 			break;
 	}
 }
@@ -129,13 +143,11 @@ void lcd_handle(uevt_t* evt) {
 
 void timer_handle(uevt_t* evt) {
 	// 是否在刷新屏幕
-	struct repeating_timer timer_10ms;
-	struct repeating_timer timer_100ms;
+	static struct repeating_timer timer_10ms;
+	static struct repeating_timer timer_100ms;
 	switch(evt->evt_id) {
 		case UEVT_SYS_BOOT:
-			
 			add_repeating_timer_ms(10, timer_10ms_callback, NULL, &timer_10ms);
-			
 			add_repeating_timer_ms(100, timer_100ms_callback, NULL, &timer_100ms);
 			break;
 		case UEVT_APP_NEWSTATE:
@@ -151,8 +163,8 @@ void timer_handle(uevt_t* evt) {
 
 void moudle_init(void) {
 	// user_event_handler_regist(oled_handle);
-	// user_event_handler_regist(timer_handle);
 	user_event_handler_regist(lcd_handle);
+	user_event_handler_regist(timer_handle);
 
 }
 
