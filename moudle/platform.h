@@ -34,7 +34,8 @@
 #include "ssd1306_font.h"
 #include "spi_drv.h"
 #include "timer_drv.h"
-
+#include "bitmap.h"
+#include "oled_image.h"
 
 
 void moudle_init(void);

@@ -7,9 +7,10 @@ PICO_DIR = ./pico
 
 default: pico
 
-assets:
+assets_oled:
 	@echo Create Assets
-	./utils_bin/p2a-win-amd64.exe -q 0 -c rgb565 -in ./assets/UI -out $(PICO_DIR)/assets
+	./utils_bin/p2a-win-amd64.exe -in ./moudle/ui/oled -out ./moudle/oled_image
+	
 
 pico:clean
 	cmake . -G Ninja -B$(BUILD_DIR) -S.

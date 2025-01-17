@@ -250,14 +250,19 @@ void oled_clean_buff(void) {
 }
 
 
-void oled_draw(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t* p) {
-	for (uint8_t j = 0; j < (h - 1) / 8 + 1; j++) {
-		for (uint8_t i = 0; i < w; i++) {
-			oled_display_buff[(y / 8 + j) ][ (x + i)] |= p[j * w + i] << (y % 8);
-			oled_display_buff[(y / 8 + j + 1)][(x + i)] |= p[j * w + i] >> (8 - y % 8);
+
+
+
+void oled_draw(uint8_t x, uint8_t y,const sBITMAP* P) {
+	uint8_t i, j;
+	for (j = 0; j < ((P->h) - 1) / 8 + 1; j++) {
+		for (i = 0; i < P->w; i++) {
+			oled_display_buff[(y / 8 + j) ][ (x + i)] |= P->map[j * P->w + i] << (y % 8);
+			oled_display_buff[(y / 8 + j + 1)][(x + i)] |= P->map[j * P->w + i] >> (8 - y % 8);
 		}
 	}
 }
+
 /**
  * @brief 将当前显存显示到屏幕上
  * @note 此函数是移植本驱动时的重要函数 将本驱动库移植到其他驱动芯片时应根据实际情况修改此函数

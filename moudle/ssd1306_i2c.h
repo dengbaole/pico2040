@@ -2,9 +2,9 @@
 #define _SSD1306_IIC_H
 
 #include "platform.h"
+#include "bitmap.h"
 
-
-#define SSD1306_HEIGHT              64
+#define SSD1306_HEIGHT              32
 #define SSD1306_WIDTH               128
 
 #define SSD1306_I2C_ADDR            _u(0x3C)
@@ -79,7 +79,7 @@ void FillReversedCache();
 void WriteChar(uint8_t* buf, int16_t x, int16_t y, uint8_t ch) ;
 void WriteString(uint8_t* buf, int16_t x, int16_t y, char* str);
 void oled_clean_buff(void);
-void oled_draw(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t* p);
+void oled_draw(uint8_t x, uint8_t y,const sBITMAP* P);
 void oled_update(void);
 
 #endif // !1
