@@ -4,8 +4,9 @@
 
 void oled_handle(uevt_t* evt) {
 	static uint16_t t_10ms = 0;
-	static uint8_t dino_1_h = 10;
-	static uint8_t dino_2_h  = 10;
+	static uint8_t dino_1_h = 8;
+	static uint8_t dino_2_h  = 8;
+	static uint8_t display_num = 0;
 	// 是否在刷新屏幕
 	switch(evt->evt_id) {
 		case UEVT_SYS_BOOT:
@@ -31,25 +32,27 @@ void oled_handle(uevt_t* evt) {
 		case UEVT_TIMER_10MS:
 			t_10ms++;
 			if(t_10ms % 20 == 0) {
-				if(dino_1_h < 10) {
+				if(dino_1_h < 8) {
 					dino_1_h++;
 				}
-				if(dino_2_h < 10) {
+				if(dino_2_h < 8) {
 					dino_2_h++;
 				}
 				oled_clean_buff();
+				oled_draw(0, 0, font_5H_num_array[display_num]);
 				oled_draw(25, dino_1_h, &ad1_bmp);
 				oled_draw(90, dino_2_h, &dino_front_leg_bmp);
 				oled_update();
 			}
 			if(t_10ms % 20 == 10) {
-				if(dino_1_h < 10) {
+				if(dino_1_h < 8) {
 					dino_1_h++;
 				}
-				if(dino_2_h < 10) {
+				if(dino_2_h < 8) {
 					dino_2_h++;
 				}
 				oled_clean_buff();
+				oled_draw(0, 0, font_5H_num_array[display_num]);
 				oled_draw(25, dino_1_h, &ad2_bmp);
 				oled_draw(90, dino_2_h, &dino_back_leg_bmp);
 				oled_update();
@@ -60,9 +63,11 @@ void oled_handle(uevt_t* evt) {
 			break;
 		case BUTTON1_ON:
 			dino_1_h = 0;
+			display_num = 1;
 			break;
 		case BUTTON2_ON:
 			dino_2_h = 0;
+			display_num = 2;
 			break;
 	}
 }

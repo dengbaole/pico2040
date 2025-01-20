@@ -10,6 +10,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+
+
 #include "pico/stdlib.h"
 #include "pico/binary_info.h"
 #include "hardware/uart.h"
@@ -64,8 +66,8 @@ void moudle_init(void);
 #define UEVT_TIMER_100MS (UEVT_RTC_BASE | 0x2F)
 
 #define UEVT_BUTTON_BASE (0x0100)
-#define BUTTON1_ON (UEVT_BUTTON_BASE | 0x01)
-#define BUTTON2_ON (UEVT_BUTTON_BASE | 0x02)
+#define BUTTON1_ON (UEVT_BUTTON_BASE | 0x10)
+#define BUTTON2_ON (UEVT_BUTTON_BASE | 0x20)
 
 
 
