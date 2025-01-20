@@ -30,11 +30,13 @@ void oled_handle(uevt_t* evt) {
 			if(t_10ms % 20 == 0){
 				oled_clean_buff();
 				oled_draw(25, 0,&ad1_bmp);
+				oled_draw(90, 0,&dino_front_leg_bmp);
 				oled_update();
 			}
 			if(t_10ms % 20 == 10){
 				oled_clean_buff();
 				oled_draw(25, 0,&ad2_bmp);
+				oled_draw(90, 0,&dino_back_leg_bmp);
 				oled_update();
 			}
 			break;
