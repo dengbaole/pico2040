@@ -34,3 +34,17 @@ void button_init(void) {
 	gpio_set_irq_enabled_with_callback(KEY1_PIN, GPIO_IRQ_EDGE_FALL, true, &button_callback);
 
 }
+
+
+
+void button_scan(void) {
+    // 检查按键状态
+    if (gpio_get(KEY2_PIN) == 0) {
+        // 按键2按下
+        uevt_bc_e(BUTTON2_ON);
+    }
+    if (gpio_get(KEY1_PIN) == 0) {
+        // 按键1按下
+        uevt_bc_e(BUTTON1_ON);
+    }
+}

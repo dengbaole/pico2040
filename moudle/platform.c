@@ -26,7 +26,6 @@ void oled_handle(uevt_t* evt) {
 			oled_clean_buff();
 
 			oled_update();
-			button_init();
 			uevt_bc_e(UEVT_APP_NEWSTATE);
 			break;
 		case UEVT_TIMER_10MS:
@@ -40,8 +39,7 @@ void oled_handle(uevt_t* evt) {
 				}
 				oled_clean_buff();
 				oled_draw(0, 0, font_5H_num_array[display_num]);
-				oled_draw(25, dino_1_h, &ad1_bmp);
-				oled_draw(90, dino_2_h, &dino_front_leg_bmp);
+				oled_draw(2, dino_2_h, &dino_front_leg_bmp);
 				oled_update();
 			}
 			if(t_10ms % 20 == 10) {
@@ -53,8 +51,7 @@ void oled_handle(uevt_t* evt) {
 				}
 				oled_clean_buff();
 				oled_draw(0, 0, font_5H_num_array[display_num]);
-				oled_draw(25, dino_1_h, &ad2_bmp);
-				oled_draw(90, dino_2_h, &dino_back_leg_bmp);
+				oled_draw(2, dino_2_h, &dino_back_leg_bmp);
 				oled_update();
 			}
 			break;
@@ -120,12 +117,26 @@ void timer_handle(uevt_t* evt) {
 	}
 }
 
+void button_handle(uevt_t* evt) {
+	// 是否在刷新屏幕
+	switch(evt->evt_id) {
+		case UEVT_SYS_BOOT:
+			button_init();
+			break;
+		case UEVT_APP_NEWSTATE:
 
+			break;
+		case UEVT_SYS_SLEEP:
+			
+			break;
+	}
+}
 
 
 
 void moudle_init(void) {
 	user_event_handler_regist(oled_handle);
+	user_event_handler_regist(button_handle);
 	// user_event_handler_regist(lcd_handle);
 	user_event_handler_regist(timer_handle);
 
