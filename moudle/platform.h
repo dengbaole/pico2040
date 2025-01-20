@@ -36,6 +36,7 @@
 #include "timer_drv.h"
 #include "bitmap.h"
 #include "oled_image.h"
+#include "button_drv.h"
 
 
 void moudle_init(void);
@@ -61,6 +62,12 @@ void moudle_init(void);
 #define UEVT_TIMER_FPS (UEVT_RTC_BASE | 0x1F)
 #define UEVT_TIMER_10MS (UEVT_RTC_BASE | 0x20)
 #define UEVT_TIMER_100MS (UEVT_RTC_BASE | 0x2F)
+
+#define UEVT_BUTTON_BASE (0x0100)
+#define BUTTON1_ON (UEVT_BUTTON_BASE | 0x01)
+#define BUTTON2_ON (UEVT_BUTTON_BASE | 0x02)
+
+
 
 #define UEVT_ADC_BASE (0x0200)
 #define UEVT_ADC_TEMPERATURE_RESULT (UEVT_ADC_BASE | 0x01)

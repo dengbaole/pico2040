@@ -253,7 +253,7 @@ void oled_clean_buff(void) {
 
 
 
-void oled_draw(uint8_t x, uint8_t y,const sBITMAP* P) {
+void oled_draw(uint8_t x, uint8_t y, const sBITMAP* P) {
 	uint8_t i, j;
 	for (j = 0; j < ((P->h) - 1) / 8 + 1; j++) {
 		for (i = 0; i < P->w; i++) {
